@@ -11,8 +11,8 @@ public class ContaBancaria extends ClienteConta {
     List<Double> relacaoDepositos = new ArrayList<>();   
     String dataMovimento = DateFormat.getDateInstance().format(new Date());
 
-    public ContaBancaria() {
+    /*public ContaBancaria() {
         saldoConta = 1000;
         relacaoDepositos.add(saldoConta);
-    }    
+    }*/    
 }
