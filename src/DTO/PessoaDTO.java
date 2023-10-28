@@ -5,8 +5,10 @@ import INTER.DadosBasicosINTER;
 public class PessoaDTO implements DadosBasicosINTER{
     
     protected int id = 0;
-    protected String nome = "";
     protected int bairro = 0;
+    protected String nome = "";
+    protected String senha = "";
+    protected String nomebairro = "";
 
     @Override
     public int getId() {
@@ -24,6 +26,16 @@ public class PessoaDTO implements DadosBasicosINTER{
     }
 
     @Override
+    public String getSenha() {
+        return senha;
+    }
+
+    @Override
+    public String getNomeBairro() {
+        return nomebairro;
+    }
+
+    @Override
     public void setId(int id) {
         this.id = id;
     }
@@ -38,6 +50,15 @@ public class PessoaDTO implements DadosBasicosINTER{
     public void setBairro(int bairro) {
         this.bairro = bairro;
     }
-    
-    
+
+    @Override
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    @Override
+    public void setNomeBairro(String nomebairro) {
+        this.nomebairro = nomebairro;
+    }
+ 
 }
