@@ -26,7 +26,7 @@ public class ConsultasVIEW extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtnomebairro = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        btncatbairro = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,10 +88,10 @@ public class ConsultasVIEW extends javax.swing.JFrame {
 
         jLabel3.setText("Nome do bairro");
 
-        jButton4.setText("Cadastrar");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btncatbairro.setText("Cadastrar");
+        btncatbairro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btncatbairroActionPerformed(evt);
             }
         });
 
@@ -107,7 +107,7 @@ public class ConsultasVIEW extends javax.swing.JFrame {
                 .addGap(392, 392, 392))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton4)
+                .addComponent(btncatbairro)
                 .addGap(116, 116, 116))
         );
         jPanel4Layout.setVerticalGroup(
@@ -118,7 +118,7 @@ public class ConsultasVIEW extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(txtnomebairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4)
+                .addComponent(btncatbairro)
                 .addContainerGap(124, Short.MAX_VALUE))
         );
 
@@ -175,9 +175,8 @@ public class ConsultasVIEW extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btncatbairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncatbairroActionPerformed
         String nome;
-        
         nome = txtnomebairro.getText();
         
         try{
@@ -185,15 +184,15 @@ public class ConsultasVIEW extends javax.swing.JFrame {
             BairroDTO objbairrodto = new BairroDTO();
             
             objbairrodto.setNome(nome);
-            
             objbairrodao.cadastrarBairro(objbairrodto);
-            
+        
+            JOptionPane.showMessageDialog(null,"Bairro cadastrado com sucesso! ");        
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null,"Bairro não cadastrado "+ex);
         }finally{
             txtnomebairro.setText("");
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btncatbairroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -232,10 +231,10 @@ public class ConsultasVIEW extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btncatbairro;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
