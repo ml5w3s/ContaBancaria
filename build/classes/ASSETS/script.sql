@@ -34,4 +34,3 @@ CREATE TABLE usuario(
    FOREIGN KEY (fK_bairro_id) REFERENCES bairro(id_bairro)
    ) ENGINE = innoDB DEFAULT CHARSET=utf8;
 
-ALTER TABLE  usuario RENAME COLUMN fK_bairro_usuario to fK_bairro_id; 
