@@ -16,10 +16,10 @@ public class ConexaoDAO {
         Connection conn = null;
         
         try{
-            String url = "jdbc:mysql://"+HOST+":3306/db_banco_versatil";
+            String url = "jdbc:mysql://"+HOST+":3306/db_banco_versatil?";
             conn = DriverManager.getConnection(url,USER, PASSWORD);
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null,"e.getMenssage()");
+            JOptionPane.showMessageDialog(null,"erro.getMenssage()");
         }
         return conn;
     }
