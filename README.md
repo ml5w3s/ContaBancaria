@@ -1,2 +1,2 @@
-# conta-bancaria
+# ContaBancaria
 Projeto Java SE
