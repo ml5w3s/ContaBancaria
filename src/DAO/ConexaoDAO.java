@@ -9,17 +9,18 @@ public class ConexaoDAO {
     
     private static final String HOST = "localhost";
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "root";
+    private static final String DATA = "db_banco_versatil";
     
     public Connection conectarDAO(){
         
         Connection conn = null;
         
         try{
-            String url = "jdbc:mysql://"+HOST+":3306/db_banco_versatil";
+            String url = "jdbc:mysql://"+HOST+":3306/"+DATA+"?";
             conn = DriverManager.getConnection(url,USER, PASSWORD);
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null,"e.getMenssage()");
+            JOptionPane.showMessageDialog(null,e.getMessage());
         }
         return conn;
     }
