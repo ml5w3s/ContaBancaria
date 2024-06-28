@@ -1,14 +1,14 @@
 package VIEW;
 
-import DAO.BairroDAO;
-import DTO.BairroDTO;
+import DAO.ControleBairroDAO;
+import DTO.ControleBairroDTO;
 
 public class BancoVersatil {
 
     public static void main(String[] args) {
         
-        BairroDTO objbairrodto = new BairroDTO();
-        BairroDAO objbairrodao = new BairroDAO();
+        ControleBairroDTO objbairrodto = new ControleBairroDTO();
+        ControleBairroDAO objbairrodao = new ControleBairroDAO();
         
         objbairrodto.setNome("Sobradinho");
         objbairrodao.cadastrarBairro(objbairrodto);

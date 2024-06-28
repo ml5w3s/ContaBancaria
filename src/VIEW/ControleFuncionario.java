@@ -9,7 +9,7 @@ public class ControleFuncionario {
         ControleBairroDAO objbairrodao = new ControleBairroDAO();
         ControleBairroDTO objbairrodto = new ControleBairroDTO();
         
-        objbairrodto.setIdbairro("13");
+        objbairrodto.setId(15);
 
         objbairrodao.excluirBairro(objbairrodto);
 

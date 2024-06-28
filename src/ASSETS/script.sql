@@ -1,6 +1,11 @@
 CREATE DATABASE db_banco_versatil;
 USE db_banco_versatil;
 
+CREATE TABLE bairro(
+   id_bairro INT NOT NULL auto_increment,
+   nome_bairro VARCHAR(45) NOT NULL
+   ) ENGINE = innoDB DEFAULT CHARSET=utf8 ;
+
 CREATE TABLE cliente(
    id_cliente INT NOT NULL auto_increment,
    nome_cliente VARCHAR(45) NOT NULL,
@@ -8,14 +13,6 @@ CREATE TABLE cliente(
    PRIMARY KEY(id_cliente),
    FOREING KEY (fk_bairro_id) REFERENCES bairro(id_bairro)
    ) ENGINE = innoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE funcionario(
-   id_funcionario INT NOT NULL auto_increment,
-   nome_funcionario VARCHAR(45) NOT NULL,
-   fk_bairro_id VARCHAR(45) NOT NULL,
-   PRIMARY KEY(id_funcionario),
-   FOREIGN KEY (fk_bairro_id) REFERENCES bairro(id_bairro)
-   ) ENGINE = innoDB DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE gerente(
    id_gerente INT NOT NULL auto_increment,

@@ -4,90 +4,105 @@ import java.util.List;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Connection;
-import java.sql.SQLException;
 import DTO.ControleBairroDTO;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import java.sql.PreparedStatement;
 
 public class ControleBairroDAO {
     
-    ResultSet rs;
     Connection conn;
-    PreparedStatement pstm;
     ArrayList<ControleBairroDTO> listabairro;
-
+    
     public ControleBairroDAO() {
         this.listabairro = new ArrayList<>();
     }
     
-    public void atualizarBairro(ControleBairroDTO objbairrodto) {
+    public void atualizarBairro(ControleBairroDTO objbairrodto){
+        conn = new ControleConexaoDAO().conectarDadosDAO();
         String sql = "UPDATE bairro SET nome_bairro = ? WHERE id_bairro = ?";
-        conn = new ControleConexaoDAO().conectarDados();
-        try {
-            pstm = conn.prepareStatement(sql);
-            pstm.setString(1, objbairrodto.getNomebairro());
-            pstm.setString(2, objbairrodto.getIdbairro()); 
+        
+        try (PreparedStatement pstm = conn.prepareStatement(sql)){
+            pstm.setString(1,objbairrodto.getNome());
             pstm.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Bairro atualizado ");
-        } catch (SQLException e) {
+            if (pstm != null){
+                pstm.close();
+            }
+        }catch(SQLException e){
             e.printStackTrace();
-        } finally {
-            try {
-                if (pstm != null) {
-                    pstm.close();
-                }
-                if (conn != null) {
+        }finally{
+            try{
+                if (conn != null);
+                conn.close();
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null,e.getMessage());
+            }
+        }
+        
+    }
+
+    public void cadastrarBairro(ControleBairroDTO objbairrodto){
+        conn = new ControleConexaoDAO().conectarDadosDAO();
+        String sql = "INSERT INTO bairro (nome_bairro) VALUES (?)";
+        
+        try (PreparedStatement pstm = conn.prepareStatement(sql)){
+            pstm.setString(1,objbairrodto.getNome());
+            pstm.executeUpdate();
+            if(pstm != null){
+                pstm.close();
+            }
+        }catch(SQLException e){
+                e.printStackTrace();
+        }finally{
+            try{
+                if(conn != null){
                     conn.close();
                 }
-            } catch (SQLException e) {
+            }catch(SQLException e){
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
         }
-    }
+    }    
     
-    public void cadastrarBairro(ControleBairroDTO objbairrodto){
-        String sql = "INSERT INTO bairro(nome_bairro)VALUES(?)";
-        conn = new ControleConexaoDAO().conectarDados();
-        try{
-            pstm=conn.prepareStatement(sql);
-            pstm.setString(1, objbairrodto.getNomebairro());
-            pstm.execute();
-            pstm.close();
-            JOptionPane.showMessageDialog(null, "Bairro cadastrado ");
-        }catch(SQLException erro){
-            JOptionPane.showMessageDialog(null, "Bairro não cadastrado "+erro);
-        }
-    }
-
     public void excluirBairro(ControleBairroDTO objbairrodto){
-        String sql = "DELETE FROM bairro WHERE id_bairro=?";
-        conn = new ControleConexaoDAO().conectarDados();
-        try{
-            pstm = conn.prepareStatement(sql);
-            pstm.setString(1, objbairrodto.getIdbairro());
-            int rowsDeleted = pstm.executeUpdate();
-            pstm.close();
-            JOptionPane.showMessageDialog(null, "Bairro excluido ");
-        }catch (SQLException ex){
-            System.out.println(ex);
+        conn = new ControleConexaoDAO().conectarDadosDAO();
+        String sql = "DELET FROM bairro WHERE id_bairro = ?";
+        
+        try (PreparedStatement pstm = conn.prepareStatement(sql)){
+            pstm.setInt(1,objbairrodto.getId());
+            pstm.executeUpdate();
+            if (pstm != null){
+                pstm.close();
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if (conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null,e.getMessage());
+            }
         }
     }
     
     public List pesquisarBairro(){
-        try{
-            conn = new ControleConexaoDAO().conectarDados();
-            String sql= "SELECT * FROM bairro";   
-            pstm = conn.prepareStatement (sql);
+        ResultSet rs;
+        conn = new ControleConexaoDAO().conectarDadosDAO();
+        String sql= "SELECT * FROM bairro";
+        
+        try(PreparedStatement pstm = conn.prepareStatement(sql)){
             rs = pstm.executeQuery();
 
             while(rs.next()){
                 ControleBairroDTO objbairrodto = new ControleBairroDTO();
-                objbairrodto.setIdbairro(rs.getString("id_bairro"));
-                objbairrodto.setNomebairro(rs.getString("nome_bairro"));
+                objbairrodto.setId(rs.getInt("id_bairro"));
+                objbairrodto.setNome(rs.getString("nome_bairro"));
                 listabairro.add(objbairrodto);
             }
         }catch(SQLException erro){
-            JOptionPane.showMessageDialog(null, "BairroDAO Pesquisar: " + erro);
+            JOptionPane.showMessageDialog(null, "BairroDAO Pesquisar" + erro.getMessage());
         }
         return listabairro;
     }
