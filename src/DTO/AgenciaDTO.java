@@ -1,6 +1,6 @@
 package DTO;
 
-public class ControleAgenciaDTO {
+public class AgenciaDTO {
     private String idagencia, nomeagencia, bairroagencia;
 
     public String getIdagencia() {

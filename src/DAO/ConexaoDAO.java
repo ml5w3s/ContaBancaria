@@ -5,12 +5,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
-public class ControleConexaoDAO {
+public class ConexaoDAO {
     
     private static final String HOST = "localhost";
     private static final String USER = "root";
     private static final String PASSWORD = "root";
-    private static final String DATA = "db_banco_versatil";
+    private static final String DATA = "db_banco";
     
     public Connection conectarDadosDAO(){
         Connection conn = null;

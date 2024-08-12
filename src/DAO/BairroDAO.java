@@ -1,25 +1,25 @@
 package DAO;
 
+import DTO.BairroDTO;
 import java.util.List;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Connection;
-import DTO.ControleBairroDTO;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import java.sql.PreparedStatement;
 
-public class ControleBairroDAO {
+public class BairroDAO {
     
     Connection conn;
-    ArrayList<ControleBairroDTO> listabairro;
+    ArrayList<BairroDTO> listabairro;
     
-    public ControleBairroDAO() {
+    public BairroDAO() {
         this.listabairro = new ArrayList<>();
     }
     
-    public void atualizarBairro(ControleBairroDTO objbairrodto){
-        conn = new ControleConexaoDAO().conectarDadosDAO();
+    public void atualizarBairro(BairroDTO objbairrodto){
+        conn = new ConexaoDAO().conectarDadosDAO();
         String sql = "UPDATE bairro SET nome_bairro = ? WHERE id_bairro = ?";
         
         try (PreparedStatement pstm = conn.prepareStatement(sql)){
@@ -41,8 +41,8 @@ public class ControleBairroDAO {
         
     }
 
-    public void cadastrarBairro(ControleBairroDTO objbairrodto){
-        conn = new ControleConexaoDAO().conectarDadosDAO();
+    public void cadastrarBairro(BairroDTO objbairrodto){
+        conn = new ConexaoDAO().conectarDadosDAO();
         String sql = "INSERT INTO bairro (nome_bairro) VALUES (?)";
         
         try (PreparedStatement pstm = conn.prepareStatement(sql)){
@@ -64,8 +64,8 @@ public class ControleBairroDAO {
         }
     }    
     
-    public void excluirBairro(ControleBairroDTO objbairrodto){
-        conn = new ControleConexaoDAO().conectarDadosDAO();
+    public void excluirBairro(BairroDTO objbairrodto){
+        conn = new ConexaoDAO().conectarDadosDAO();
         String sql = "DELET FROM bairro WHERE id_bairro = ?";
         
         try (PreparedStatement pstm = conn.prepareStatement(sql)){
@@ -87,22 +87,32 @@ public class ControleBairroDAO {
         }
     }
     
-    public List pesquisarBairro(){
+    public List<BairroDTO> pesquisarBairro() {
         ResultSet rs;
-        conn = new ControleConexaoDAO().conectarDadosDAO();
-        String sql= "SELECT * FROM bairro";
-        
-        try(PreparedStatement pstm = conn.prepareStatement(sql)){
+        conn = new ConexaoDAO().conectarDadosDAO();
+        String sql = "SELECT * FROM bairro";
+
+        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
             rs = pstm.executeQuery();
 
-            while(rs.next()){
-                ControleBairroDTO objbairrodto = new ControleBairroDTO();
+            while (rs.next()) {
+                BairroDTO objbairrodto = new BairroDTO(); // Criação do novo objeto dentro do loop
                 objbairrodto.setId(rs.getInt("id_bairro"));
                 objbairrodto.setNome(rs.getString("nome_bairro"));
                 listabairro.add(objbairrodto);
+                System.out.println("Bairro adicionado: " + objbairrodto.getNome()); // Depuração
             }
-        }catch(SQLException erro){
-            JOptionPane.showMessageDialog(null, "BairroDAO Pesquisar" + erro.getMessage());
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "BairroDAO Pesquisar: " + erro.getMessage());
+        } finally {
+            // Fecha a conexão após o uso
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar conexão: " + e.getMessage());
+            }
         }
         return listabairro;
     }
