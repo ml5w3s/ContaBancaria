@@ -2,9 +2,7 @@ package VIEW;
 
 import DTO.BairroDTO;
 import DAO.BairroDAO;
-import java.util.Map;
 import java.util.List;
-import java.util.HashMap;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -282,39 +280,37 @@ public class BairroVIEW extends javax.swing.JFrame {
         objbairrodao.cadastrarBairro(objbairrodto);
 
         txtcadbairro.setText("");
+        listarBairro();
     }//GEN-LAST:event_btncadbairroActionPerformed
 
     private void btnupbairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupbairroActionPerformed
         BairroDTO objbairrodto = new BairroDTO();
         BairroDAO objbairrodao = new BairroDAO();
-        Map<String, String> mapaidpornome = null;
         
-        String idbairro;
-        String selecionado = (String) cmbupbairro.getSelectedItem();
+        String nome = (String) cmbupbairro.getSelectedItem();
+        int id = objbairrodao.pesquisarBairroId(nome);
         String novobairro = txtupbairro.getText();
         
-        idbairro = mapaidpornome.get(selecionado);
-
-        objbairrodto.setId(Integer.parseInt(idbairro));
+        objbairrodto.setId(id);
         objbairrodto.setNome(novobairro);
 
         objbairrodao.atualizarBairro(objbairrodto);
-        txtcadbairro.setText("");
+        txtupbairro.setText("");
+        listarBairro();
     }//GEN-LAST:event_btnupbairroActionPerformed
 
     private void btndelbairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndelbairroActionPerformed
         BairroDTO objbairrodto = new BairroDTO();
         BairroDAO objbairrodao = new BairroDAO();
-        Map<String, String> mapaidpornome = null;
         
-        String idbairro;
-        String selecionado = (String) cmbdelbairro.getSelectedItem();
-
-        idbairro = mapaidpornome.get(selecionado);
-
-        objbairrodto.setId(Integer.parseInt(idbairro));
+        String nome = (String) cmbdelbairro.getSelectedItem();
+        int id = objbairrodao.pesquisarBairroId(nome);
+        
+        objbairrodto.setId(id);
+        System.out.println("O id eh: "+id);
 
         objbairrodao.excluirBairro(objbairrodto);
+        listarBairro();
     }//GEN-LAST:event_btndelbairroActionPerformed
 
     /**
@@ -401,15 +397,11 @@ public class BairroVIEW extends javax.swing.JFrame {
         BairroDAO objbairrodao = new BairroDAO();
         
         List<BairroDTO> lista = objbairrodao.pesquisarBairro();
-        Map<String, String> mapaidpornome;
         
         try {
             DefaultTableModel model = (DefaultTableModel) tabbairro.getModel();
             model.setRowCount(0);
 
-            mapaidpornome = new HashMap<>();
-            mapaidpornome.clear();
-            
             cmbupbairro.removeAllItems();
             cmbdelbairro.removeAllItems();
 
@@ -419,10 +411,10 @@ public class BairroVIEW extends javax.swing.JFrame {
                     bairro.getNome()
                 });
 
-                mapaidpornome.put(bairro.getNome(), null);
-
+//                lblupidbairro.setText(bairro.getId());
                 cmbupbairro.addItem(bairro.getNome());
                 cmbdelbairro.addItem(bairro.getNome());
+                
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "listar Valores VIEW: " + e);

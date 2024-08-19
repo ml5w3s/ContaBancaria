@@ -9,12 +9,12 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import java.sql.PreparedStatement;
 
-public class BairroDAO {
+public class BairroDAOTest {
     
     Connection conn;
     ArrayList<BairroDTO> listabairro;
     
-    public BairroDAO() {
+    public BairroDAOTest() {
         this.listabairro = new ArrayList<>();
     }
     
@@ -26,7 +26,6 @@ public class BairroDAO {
             pstm.setString(1, objbairrodto.getNome());
             pstm.setInt(2, objbairrodto.getId());
             pstm.executeUpdate();
-            
             if (pstm != null){
                 pstm.close();
             }
@@ -68,7 +67,7 @@ public class BairroDAO {
     
     public void excluirBairro(BairroDTO objbairrodto){
         conn = new ConexaoDAO().conectarDadosDAO();
-        String sql = "DELETE FROM bairro WHERE id_bairro = ?";
+        String sql = "DELET FROM bairro WHERE id_bairro = ?";
         
         try (PreparedStatement pstm = conn.prepareStatement(sql)){
             pstm.setInt(1,objbairrodto.getId());
@@ -115,41 +114,5 @@ public class BairroDAO {
             }
         }
         return listabairro;
-    }
-    
-    public int pesquisarBairroId(String nome) {
-        BairroDTO objbairrodto = new BairroDTO();
-
-        String sql = "SELECT id_bairro FROM bairro WHERE nome_bairro = ?";
-        Connection conn = new ConexaoDAO().conectarDadosDAO();
-        objbairrodto.setNome(nome);//resgatar nome do cmb na VIEW
-        int idbairro = 0;
-
-        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setString(1, objbairrodto.getNome());
-            ResultSet rs = pstm.executeQuery();
-
-            if (rs.next()) {
-                idbairro = rs.getInt(1);
-                objbairrodto.setId(idbairro);
-                System.out.println("O id no rs: "+rs.getInt(1));//Teste, resultado inconsistente para nomes idênticos         
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Bairro não encontrado!");
-            }
-
-        } catch (SQLException erro) {
-            JOptionPane.showMessageDialog(null, "BairroDAO Pesquisar: " + erro.getMessage());        
-        } finally {
-
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Erro ao fechar conexão: " + e.getMessage());
-            }
-        }
-        return idbairro;
     }
 }
