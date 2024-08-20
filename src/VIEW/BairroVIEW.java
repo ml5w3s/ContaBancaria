@@ -274,13 +274,13 @@ public class BairroVIEW extends javax.swing.JFrame {
     private void btncadbairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncadbairroActionPerformed
         BairroDTO objbairrodto = new BairroDTO();
         BairroDAO objbairrodao = new BairroDAO();
+        
         String nomebairro = txtcadbairro.getText();
 
         objbairrodto.setNome(nomebairro);
         objbairrodao.cadastrarBairro(objbairrodto);
-
-        txtcadbairro.setText("");
-        listarBairro();
+        
+        finalizarTransacao();
     }//GEN-LAST:event_btncadbairroActionPerformed
 
     private void btnupbairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupbairroActionPerformed
@@ -293,10 +293,9 @@ public class BairroVIEW extends javax.swing.JFrame {
         
         objbairrodto.setId(id);
         objbairrodto.setNome(novobairro);
-
         objbairrodao.atualizarBairro(objbairrodto);
-        txtupbairro.setText("");
-        listarBairro();
+
+        finalizarTransacao();
     }//GEN-LAST:event_btnupbairroActionPerformed
 
     private void btndelbairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndelbairroActionPerformed
@@ -307,10 +306,9 @@ public class BairroVIEW extends javax.swing.JFrame {
         int id = objbairrodao.pesquisarBairroId(nome);
         
         objbairrodto.setId(id);
-        System.out.println("O id eh: "+id);
-
         objbairrodao.excluirBairro(objbairrodto);
-        listarBairro();
+        
+        finalizarTransacao();
     }//GEN-LAST:event_btndelbairroActionPerformed
 
     /**
@@ -411,7 +409,6 @@ public class BairroVIEW extends javax.swing.JFrame {
                     bairro.getNome()
                 });
 
-//                lblupidbairro.setText(bairro.getId());
                 cmbupbairro.addItem(bairro.getNome());
                 cmbdelbairro.addItem(bairro.getNome());
                 
@@ -419,6 +416,14 @@ public class BairroVIEW extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "listar Valores VIEW: " + e);
         }
+        
         return lista;
+    }
+    
+    public void finalizarTransacao(){
+        JOptionPane.showMessageDialog(null, "Operação realizada com sucesso!");
+        txtcadbairro.setText("");
+        listarBairro();
+        System.gc();
     }
 }

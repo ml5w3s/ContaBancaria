@@ -30,17 +30,19 @@ public class BairroDAO {
             if (pstm != null){
                 pstm.close();
             }
+            
         }catch(SQLException e){
             e.printStackTrace();
+            
         }finally{
             try{
                 if (conn != null);
                 conn.close();
+            
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(null,e.getMessage());
             }
         }
-        
     }
 
     public void cadastrarBairro(BairroDTO objbairrodto){
@@ -53,13 +55,16 @@ public class BairroDAO {
             if(pstm != null){
                 pstm.close();
             }
+            
         }catch(SQLException e){
-                e.printStackTrace();
+            e.printStackTrace();
+            
         }finally{
             try{
                 if(conn != null){
                     conn.close();
                 }
+                
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
@@ -67,8 +72,8 @@ public class BairroDAO {
     }    
     
     public void excluirBairro(BairroDTO objbairrodto){
-        conn = new ConexaoDAO().conectarDadosDAO();
         String sql = "DELETE FROM bairro WHERE id_bairro = ?";
+        conn = new ConexaoDAO().conectarDadosDAO();
         
         try (PreparedStatement pstm = conn.prepareStatement(sql)){
             pstm.setInt(1,objbairrodto.getId());
@@ -76,13 +81,16 @@ public class BairroDAO {
             if (pstm != null){
                 pstm.close();
             }
+            
         }catch(SQLException e){
             e.printStackTrace();
+            
         }finally{
             try{
                 if (conn != null){
                     conn.close();
                 }
+                
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(null,e.getMessage());
             }
@@ -99,19 +107,24 @@ public class BairroDAO {
 
             while (rs.next()) {
                 BairroDTO objbairrodto = new BairroDTO();
+                
                 objbairrodto.setId(rs.getInt("id_bairro"));
                 objbairrodto.setNome(rs.getString("nome_bairro"));
                 listabairro.add(objbairrodto);
             }
+            
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "BairroDAO Pesquisar: " + erro.getMessage());
+            
         } finally {
             try {
                 if (conn != null) {
                     conn.close();
                 }
+                
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Erro ao fechar conexão: " + e.getMessage());
+                
             }
         }
         return listabairro;
@@ -122,8 +135,9 @@ public class BairroDAO {
 
         String sql = "SELECT id_bairro FROM bairro WHERE nome_bairro = ?";
         Connection conn = new ConexaoDAO().conectarDadosDAO();
-        objbairrodto.setNome(nome);//resgatar nome do cmb na VIEW
+        
         int idbairro = 0;
+        objbairrodto.setNome(nome);
 
         try (PreparedStatement pstm = conn.prepareStatement(sql)) {
             pstm.setString(1, objbairrodto.getNome());
@@ -131,23 +145,24 @@ public class BairroDAO {
 
             if (rs.next()) {
                 idbairro = rs.getInt(1);
-                objbairrodto.setId(idbairro);
-                System.out.println("O id no rs: "+rs.getInt(1));//Teste, resultado inconsistente para nomes idênticos         
+                objbairrodto.setId(idbairro);        
 
             } else {
                 JOptionPane.showMessageDialog(null, "Bairro não encontrado!");
             }
 
         } catch (SQLException erro) {
-            JOptionPane.showMessageDialog(null, "BairroDAO Pesquisar: " + erro.getMessage());        
+            JOptionPane.showMessageDialog(null, "BairroDAO Pesquisar: " + erro.getMessage());
+            
         } finally {
-
             try {
                 if (conn != null) {
                     conn.close();
                 }
+                
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Erro ao fechar conexão: " + e.getMessage());
+                
             }
         }
         return idbairro;
